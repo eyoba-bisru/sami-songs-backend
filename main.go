@@ -3,10 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 type Album struct {
@@ -39,7 +42,13 @@ type Song struct {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "sql12729214:9ql3Lh6nyT@tcp(sql12.freemysqlhosting.net:3306)/sql12729214")
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	db, err := sql.Open("mysql", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err)
 	}
@@ -495,7 +504,7 @@ func main() {
 
 	})
 
-	fmt.Println("Listening on :3000")
+	fmt.Println("Listening on :" + os.Getenv("PORT"))
 
-	app.Listen(":3000")
+	app.Listen(":" + os.Getenv("PORT"))
 }
