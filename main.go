@@ -42,10 +42,7 @@ type Song struct {
 
 func main() {
 
-	err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file: %v", err)
-	// }
+	godotenv.Load()
 
 	db, err := sql.Open("mysql", os.Getenv("DATABASE_URL"))
 	if err != nil {
